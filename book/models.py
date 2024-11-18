@@ -52,4 +52,18 @@ class Volume(models.Model):
 
 
     
-       
+
+
+class Contacts(models.Model):
+    full_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    number = models.PositiveIntegerField(null=True, blank=True)
+    novel_name = models.CharField(max_length=100)
+    author = models.CharField(max_length=100)
+    messages = models.TextField()
+
+
+    def __str__(self):
+        return self.full_name
+
+

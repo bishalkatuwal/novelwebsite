@@ -1,0 +1,144 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css"
+    integrity="sha384-dpuaG1suU0eT09tx5plTaGMLBsfDLzUCCUXOY2j/LSvXYuG6Bqs43ALlhIqAJVRb" crossorigin="anonymous">
+
+
+
+
+<div class="card">
+    <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="Cover Image of {{ novel.title }}">
+    <div class="card-body">
+        <h5 class="card-title">Title: {{ novel.title }}</h5>
+        <p class="card-text">Author: {{ novel.author }}</p>
+        <p class="card-text">Published Date: {{ novel.published_date }}</p>
+        <p><strong>Genre:</strong> {% for genre in novel.genre.all %}{{ genre.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+        <p class="card-text">
+            <b>Synopsis:</b> <br>
+            {{ novel.summary }}
+        </p>
+    </div>
+</div>
+
+
+<div class="container">
+    <h4>Download Volumes</h4>
+    {% for volume in novel.volumes.all %}
+    <p><a href="{{ volume.novel_pdf.url }}">{{ volume }}</a></p> <!-- This will print the entire volume object -->
+    {% empty %}
+    <p>No volumes available for this novel.</p>
+    {% endfor %}
+</div>
+
+
+<style>
+
+
+.container {
+        max-width: 800px;  /* Optional: limit the width of the container */
+        margin: 0 auto;    /* Centers the container horizontally */
+        padding: 20px;
+        text-align: center; /* Centers the text within the container */
+    }
+
+    /* Heading styling */
+    .container h4 {
+        font-size: 1.75rem;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+
+    /* Volume items styling */
+    .container p {
+        font-size: 1.1rem;
+        color: #3498db;
+        margin: 10px 0;
+        text-align: center; /* Ensures the text for volumes is centered */
+    }
+
+    /* If there are no volumes, center the "No volumes available" message */
+    .container p.empty {
+        font-size: 1rem;
+        color: #7f8c8d;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    /* Responsive styling for mobile devices */
+    @media (max-width: 767px) {
+        .container {
+            padding: 15px;
+        }
+
+        .container h4 {
+            font-size: 1.5rem;
+        }
+
+        .container p {
+            font-size: 1rem;
+        }
+    }
+   
+    /* Basic card container styling */
+    .card {
+        width: 800px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        margin: 20px auto;
+    }
+
+    /* Hover effect for the card */
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Image styling inside the card */
+    .card-img-top {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Card body content */
+    .card-body {
+        padding: 20px;
+        background-color: #f9f9f9;
+    }
+
+    /* Title styling */
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #333;
+    }
+
+    /* Text for author, date, and summary */
+    .card-text {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 10px;
+    }
+
+    /* Styling for the synopsis section */
+    .card-text b {
+        font-weight: bold;
+        color: #333;
+    }
+
+    /* Ensuring text content is not overflowing */
+    .card-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Adjust for smaller screen sizes */
+    @media (max-width: 767px) {
+        .card {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+    }
+</style>

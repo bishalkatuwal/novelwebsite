@@ -1,0 +1,112 @@
+
+<div class="container">
+
+    <!-- profile_create.html -->
+<h1>Edit Your Profile</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">update</button>
+    <a href="{% url 'home' %}" class="btn btn-danger">Back</a>
+</form>
+
+
+</div>
+
+<style>
+    /* Container Styling */
+.container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f8f9fa; /* Light background color */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styling */
+h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+    text-align: center;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Input and Label Styling */
+form label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 0.3rem;
+}
+
+form input[type="text"],
+form input[type="file"],
+form textarea,
+form select {
+    width: 100%;
+    padding: 0.6rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="file"]:focus,
+form textarea:focus,
+form select:focus {
+    border-color: #007bff; /* Primary color on focus */
+    outline: none;
+}
+
+/* Button Styling */
+button[type="submit"],
+.btn-danger {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    margin-top: 1rem;
+}
+
+.btn-danger:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+/* Adjustments for mobile */
+@media (max-width: 600px) {
+    .container {
+        padding: 1.5rem;
+    }
+
+    button[type="submit"],
+    .btn-danger {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+}
+
+</style>

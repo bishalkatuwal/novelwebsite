@@ -31,8 +31,24 @@
   
   
           <div class="auth">
-              <a href="#" class="btn btn-danger">Login</a>
-              <a href="#" class="btn btn-success">Sign Up</a>
+    
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+                 <a href="{% url 'profile_detail' %}">
+                    {% if profile.profile_pic %}
+                        <img class="profile-image" width="50" height="50" style="border-radius: 50%;"  src="{{ profile.profile_pic.url }}" alt="Profile Picture">
+                    {% else %}
+                         <img class="profile-image" width="50" height="50" style="border-radius: 50%;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsOjD4klpAWOSKQZeP9QoKBHtIxXsDsQOpLA&s" alt="Profile Picture">
+                    {% endif %}
+                 </a>
+            {% else %}
+                 <a href="{% url 'login' %}" class="btn btn-danger">Login</a>  
+                 <a href="{% url 'user_register' %}" class="btn btn-success">Sign Up</a>
+            {% endif %}
+             
           </div>
   
   

@@ -1,0 +1,124 @@
+<!-- profile_detail.html -->
+<div class="profile-container">
+    <div class="profile-header">
+        {% if profile.profile_pic %}
+            <img class="profile-image" src="{{ profile.profile_pic.url }}" alt="Profile Picture">
+        {% else %}
+        <img class="profile-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsOjD4klpAWOSKQZeP9QoKBHtIxXsDsQOpLA&s" alt="Profile Picture">
+        {% endif %}
+        <div class="profile-info">
+            <h1 class="profile-name">{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
+            <p class="profile-bio">{{ profile.bio }}</p>
+        </div>
+    </div>
+
+    <div class="profile-actions">
+        <a href="{% url 'profile_edit' %}" class="edit-profile-btn">Edit Profile</a>
+    </div>
+</div>
+
+<style>
+    /* General Styling for Profile Page */
+    .profile-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        max-width: 500px;
+        margin: 0 auto;
+        font-family: Arial, sans-serif;
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        gap: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Profile Image */
+    .profile-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #ccc;
+    }
+
+    .no-image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #f0f0f0;
+        color: #777;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    /* Profile Info */
+    .profile-info {
+        flex: 1;
+    }
+
+    .profile-name {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .profile-bio {
+        color: #555;
+        font-size: 14px;
+        margin-top: 8px;
+    }
+
+    /* Edit Profile Button */
+    .profile-actions {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .edit-profile-btn {
+        text-decoration: none;
+        color: #fff;
+        background-color: #0095f6;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .edit-profile-btn:hover {
+        background-color: #007ac1;
+    }
+
+    /* Mobile Friendly Adjustments */
+    @media (max-width: 500px) {
+        .profile-header {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .profile-image,
+        .no-image {
+            width: 80px;
+            height: 80px;
+        }
+
+        .profile-name {
+            font-size: 20px;
+        }
+
+        .profile-bio {
+            font-size: 12px;
+        }
+    }
+</style>

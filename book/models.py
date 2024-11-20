@@ -1,6 +1,8 @@
 from typing import Any
 from django.db import models
 from django.utils import timezone
+from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
 
 
 class Genre(models.Model):
@@ -65,5 +67,16 @@ class Contacts(models.Model):
 
     def __str__(self):
         return self.full_name
+    
 
+    
+class Review(models.Model):
+    title = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Making the user field non-nullable
+    novel = models.ForeignKey(Novel, on_delete=models.CASCADE, related_name='reviews')  # Removed default
+    content = RichTextField()
+    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)], default=5)
+    post_date = models.DateTimeField(default=timezone.now)
 
+    def __str__(self):
+        return self.title

@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.views.generic import ListView, CreateView, DetailView
-from .models import Novel, Contacts
-from .forms import ContactForm
-from django.urls import reverse_lazy
+from .models import Novel, Contacts, Review
+from .forms import ContactForm, ReviewForm
+from django.urls import reverse_lazy, reverse
 
 
 
@@ -31,7 +31,16 @@ class NovelDetailView(DetailView):
     template_name = 'novel_details.html'
     context_object_name = 'novel'
 
-   
+    def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            novel = self.get_object()  # Get the novel using the slug
+            context['reviews'] = novel.reviews.all()  # Get all reviews for this novel
+            context['form'] = ReviewForm()  # Add the review form to the context
+            return context
+
+    def get_object(self, queryset=None):
+            # Override to fetch by slug
+            return get_object_or_404(Novel, slug=self.kwargs.get('slug'))
 
 
 
@@ -50,6 +59,15 @@ class ContactView(CreateView):
 
 
 
+class AddReviewView(CreateView):
+    model = Review
+    form_class = ReviewForm
 
-   
-    
+    def form_valid(self, form):
+        novel = get_object_or_404(Novel, slug=self.kwargs['slug'])  # Fetch the novel using slug
+        form.instance.novel = novel  # Associate the review with the correct novel
+        form.instance.user = self.request.user  # Associate the review with the logged-in user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('novel_detail', kwargs={'slug': self.object.novel.slug})

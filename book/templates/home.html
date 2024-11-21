@@ -2,84 +2,256 @@
 
 {% block content %}
 
-<h4> <b>Read Novels</b> </h4>
 
-<!-- Container for the card row -->
-<div class="row mb-4">
-    {% for novel in object_list %}
-    <div class="col-md-3 mb-4">
-        <div class="card">
-            <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
-            <div class="card-body">
-              <h5 class="card-title">{{ novel.title }}</h5>
-              <p class="card-text">{{ novel.author }}</p>
-              <a href="{% url 'novel_detail' slug=novel.slug %}" class="btn btn-primary">Continue Reading</a>
-            </div>
-          </div>
-    </div>
-    {% endfor %}
-</div>
+        <div class="container mt-4">
+
+                                <!-- Popular Novels Section -->
+                <div class="my-5">
+                    <h2 class="section-title">Popular Novels</h2>
+                    <div class="row row-cols-1 row-cols-md-5 g-4">
+                        {% for novel in popular_novels %}
+                        <div class="col">
+                            <div class="card shadow-sm h-100">
+                                {% if novel.cover_image %}
+                                <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
+                                {% endif %}
+                                <div class="card-body">
+                                    <a href="{% url 'novel_detail' novel.slug %}"> 
+                                        <h5 class="card-title">{{ novel.title }}</h5> 
+                                    </a>
+                                    <p class="card-text">{{ novel.author }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <a href="{{ popular_novels_url }}" class="btn btn-secondary mb-5">View All Popular Novels</a>
+
+                <!-- Latest Novels Section -->
+                <div class="my-5">
+                    <h2 class="section-title">Latest Novels</h2>
+                    <div class="row row-cols-1 row-cols-md-5 g-4">
+                        {% for novel in latest_novels %}
+                        <div class="col">
+                            <div class="card shadow-sm h-100">
+                                {% if novel.cover_image %}
+                                <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
+                                {% endif %}
+                                <div class="card-body">
+                                    <a href="{% url 'novel_detail' novel.slug %}">
+                                        <h5 class="card-title">{{ novel.title }}</h5> 
+                                    </a>
+                                    <p class="card-text">{{ novel.author }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <a href="{{ latest_novels_url }}" class="btn btn-secondary mb-5">View All Latest Novels</a>
+
+                <!-- Featured Novels Section -->
+                <div class="my-5">
+                    <h2 class="section-title">Featured Novels</h2>
+                    <div class="row row-cols-1 row-cols-md-5 g-4">
+                        {% for novel in featured_novels %}
+                        <div class="col">
+                            <div class="card shadow-sm h-100">
+                                {% if novel.cover_image %}
+                                <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
+                                {% endif %}
+                                <div class="card-body">
+                                    <a href="{% url 'novel_detail' novel.slug %}">
+                                        <h5 class="card-title">{{ novel.title }}</h5> 
+                                    </a>
+                                    <p class="card-text">{{ novel.author }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <a href="{{ featured_novels_url }}" class="btn btn-secondary mb-5">View All Featured Novels</a>
+
+                <!-- New Novels Section -->
+                <div class="my-5">
+                    <h2 class="section-title">New Novels</h2>
+                    <div class="row row-cols-1 row-cols-md-5 g-4">
+                        {% for novel in new_novels %}
+                        <div class="col">
+                            <div class="card shadow-sm h-100">
+                                {% if novel.cover_image %}
+                                <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
+                                {% endif %}
+                                <div class="card-body">
+                                    <a href="{% url 'novel_detail' novel.slug %}">
+                                        <h5 class="card-title">{{ novel.title }}</h5> 
+                                    </a>
+                                    <p class="card-text">{{ novel.author }}</p>
+                                    <a href="{% url 'novel_detail' novel.slug %}" class="btn btn-primary">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <a href="{{ new_novels_url }}" class="btn btn-secondary mb-5">View All Featured Novels</a>
+        
+        </div>
+
 
 <style>
-    h4{
-        margin-top: 20px;
-    }
-    /* Container for cards */
-    .row {
-        margin-top: 30px;
-    }
+/* Container Styles */
+.container {
+    max-width: 1200px;
+    margin-top: 50px;
+    padding: 0 15px;
+}
 
-    /* Styling for the cards */
-    .card {
-        border-radius: 10px;
-        overflow: hidden;
-        transition: transform 0.3s ease-in-out;
-        height: 100%;
-       
-    }
+h1, h2 {
+    font-family: 'Verdana', Geneva, Tahoma, sans-serif;
+    color: #333;
+}
 
-    /* Image styling */
-    .card-img-top {
-        height: 100%;
-        object-fit: fill;
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #555;
+    font-weight: bold;
+}
+
+/* Card Styles */
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    transition: transform 0.3s ease-in-out;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+a{
+    text-decoration: none;
+}
+
+.card-text {
+    font-size: 14px;
+    color: #777;
+}
+
+.card img {
+    object-fit: cover;
+    height: 200px;
+    width: 100%;
+    border-radius: 8px;
+}
+
+/* Button Styles */
+.btn {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 25px;
+    padding: 10px 20px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+}
+
+/* Hover Effects */
+.btn:hover {
+    opacity: 0.8;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Responsive Grid */
+@media (max-width: 768px) {
+    .col-md-5 {
         width: 100%;
-        
-       
     }
 
-    /* Card content styling */
     .card-body {
-        background-color: #f8f9fa;
-        padding: 20px;
-        text-align: center;
+        height: auto;
     }
 
-    /* Hover effect for card */
-    .card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    .card-title {
+        font-size: 16px;
     }
 
-    /* Button styling */
-    .card .btn {
-        width: 100%;
-        margin-top: 15px;
-        padding: 10px;
-        text-transform: uppercase;
-        border-radius: 30px;
+    .btn {
+        font-size: 12px;
     }
+}
 
-    /* Truncate long text */
-    .card-text {
-        color: #6c757d;
-    }
 
-    /* Ensure cards are responsive */
-    @media (max-width: 767px) {
-        .card {
-            margin-bottom: 20px;
-        }
-    }
+/* Custom Alert Styles */
+.alert {
+    border-radius: 30px;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin: 20px 0;
+    background-color: rgb(236, 79, 79); /* Light green background */
+    border: 1px solid #b8e6c9; /* Soft green border */
+    color: black; /* Darker green text */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    width: 600px;
+}
+
+.alert-heading {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: black; /* Slightly darker green for the heading */
+}
+
+.alert p {
+    margin-bottom: 10px;
+    line-height: 1.5;
+    color: black;
+}
+
+.alert hr {
+    border-color: #b8e6c9; /* Matching border color */
+}
+
+.alert .mb-0 {
+    margin-bottom: 0;
+    color: black;
+}
+
+/* Optional: Hover effect */
+.alert:hover {
+    background-color: rgb(235, 167, 167); /* Slightly lighter green on hover */
+    transition: background-color 0.3s ease-in-out;
+}
+
 </style>
 
 {% endblock %}

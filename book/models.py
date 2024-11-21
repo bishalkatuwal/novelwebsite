@@ -23,6 +23,12 @@ class Author(models.Model):
 
 
 class Novel(models.Model):
+    CATEGORY_CHOICES = [
+        ('popular', 'Popular'),
+        ('latest', 'Latest'),
+        ('new', 'New'),
+        ('featured', 'Featured')
+    ]
     title = models.CharField(max_length=100)
     genre = models.ManyToManyField(Genre, related_name='light_novels')
     slug = models.CharField(max_length=200, blank=True, null=True)
@@ -32,6 +38,9 @@ class Novel(models.Model):
     cover_image = models.ImageField(upload_to='novel/novel_pic/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='popular')
+    is_popular = models.BooleanField(default=False)
+    is_featured = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

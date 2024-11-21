@@ -3,6 +3,7 @@ from django.views.generic import ListView, CreateView, DetailView
 from .models import Novel, Contacts, Review
 from .forms import ContactForm, ReviewForm
 from django.urls import reverse_lazy, reverse
+from django.db.models import Q
 
 
 
@@ -11,9 +12,45 @@ class HomeView(ListView):
     model = Novel
     template_name = 'home.html'
 
-    def get_context_data(self, *args, **kwargs):
-        context  =super(HomeView,self).get_context_data( *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['popular_novels'] = Novel.objects.filter(category='popular')[:10]
+        context['latest_novels'] = Novel.objects.filter(category='latest')[:10]
+        context['new_novels'] = Novel.objects.filter(category='new')[:10]
+        context['featured_novels'] = Novel.objects.filter(category='featured')[:10]
+        context['all_novels'] = Novel.objects.all()  # If you want to show all novels
+
+
+         # Adding the category URLs
+        context['popular_novels_url'] = reverse('popular_novels')
+        context['latest_novels_url'] = reverse('latest_novels')
+        context['new_novels_url'] = reverse('new_novels')
+        context['featured_novels_url'] = reverse('featured_novels')
+
+
         return context
+    
+
+
+
+
+class CategoryNovelListView(ListView):
+    model = Novel
+    template_name = 'category_novels.html'
+    
+    def get_queryset(self):
+        category = self.kwargs['category']
+        return Novel.objects.filter(category=category)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category = self.kwargs['category']
+        context['category_name'] = category.capitalize()  # Capitalize category name for the header
+        return context
+
+
+
 
 
 class LightNovelView(ListView):

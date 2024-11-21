@@ -4,16 +4,15 @@
 
 <div class="container">
 
-        {% for novel in object_list %}
+                   {% for novel in object_list %}
 
 
 
-        <li><b><a href="{% url 'novel_detail' slug=novel.slug %}">{{ novel.title }}--[ {{ novel.author }} ]</a></b></li>   <br>
+                <li><b><a href="{% url 'novel_detail' slug=novel.slug %}">{{ novel.title }}--[ {{ novel.author }} ]</a></b></li>   <br>
 
 
-        {% endfor %}
+                {% endfor %}
 
-
-
-        {% endblock %}
+       
 </div>        
+{% endblock %}

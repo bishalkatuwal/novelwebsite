@@ -2,17 +2,118 @@
 
 {% block content %}
 
+
 <div class="container">
+      <!-- Search Bar -->
 
-                   {% for novel in object_list %}
+      <form method="get" action="{% url 'novels' %}" class="d-flex justify-content-center mb-4">
+            <input type="text" name="q" placeholder="Search novels..." class="form-control" style="width: 300px;"
+                  value="{{ query }}">
+            <button type="submit" class="btn btn-primary ms-2">Search</button>
+      </form>
 
 
+      <div class="my-5">
 
-                <li><b><a href="{% url 'novel_detail' slug=novel.slug %}">{{ novel.title }}--[ {{ novel.author }} ]</a></b></li>   <br>
+            
+
+            {% if novels %}
 
 
-                {% endfor %}
+                  {% for novel in novels %}
+                        <li><b><a href="{% url 'novel_detail' slug=novel.slug %}">{{ novel.title }}--[ {{ novel.author }} ]</a></b>
+                        </li>
+                        <br>
+                  {% endfor %}
 
-       
-</div>        
-{% endblock %}
+
+            {% else %}
+                  <div class="alert alert-info">
+                        <strong>No results found for "{{ query }}"</strong>
+                  </div>
+            {% endif %}
+
+
+      </div>
+
+
+<style>
+
+/* General container styling */
+.container {
+    margin-top: 20px;
+}
+
+/* Search Bar Styling */
+form {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    border: 2px solid #ced4da;
+    border-radius: 45px;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+}
+
+form input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 2px 6px rgba(0, 123, 255, 0.5);
+}
+
+form button {
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Search Results Styling */
+.my-5 h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 24px;
+    color: #343a40;
+}
+
+.my-5 ul {
+    list-style: none;
+    padding: 0;
+}
+
+.my-5 li {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.my-5 li a {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.2s ease-in-out;
+}
+
+.my-5 li a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* "No Results" Message Styling */
+.alert {
+    text-align: center;
+    font-size: 18px;
+    background-color: #e9ecef;
+    color: #495057;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+</style>
+
+      {% endblock %}

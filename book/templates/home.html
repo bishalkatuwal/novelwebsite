@@ -1,104 +1,105 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container mt-4">
+    
+    <div class="my-5">
 
-
-        <div class="container mt-4">
-
-                                <!-- Popular Novels Section -->
-                <div class="my-5">
-                    <h2 class="section-title">Popular Novels</h2>
-                    <div class="row row-cols-1 row-cols-md-5 g-4">
-                        {% for novel in popular_novels %}
-                        <div class="col">
-                            <div class="card shadow-sm h-100">
-                                {% if novel.cover_image %}
-                                <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
-                                {% endif %}
-                                <div class="card-body">
-                                    <a href="{% url 'novel_detail' novel.slug %}"> 
-                                        <h5 class="card-title">{{ novel.title }}</h5> 
-                                    </a>
-                                    <p class="card-text">{{ novel.author }}</p>
-                                </div>
-                            </div>
+        <!-- Displaying the Novels from the Search -->
+            <h2 class="section-title">Popular Novels</h2>
+            <div class="row row-cols-1 row-cols-md-5 g-4">
+                {% for novel in popular_novels %}
+                <div class="col">
+                    <div class="card shadow-sm h-100">
+                        {% if novel.cover_image %}
+                        <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <a href="{% url 'novel_detail' novel.slug %}">
+                                <h5 class="card-title">{{ novel.title }}</h5>
+                            </a>
+                            <p class="card-text">{{ novel.author }}</p>
                         </div>
-                        {% endfor %}
                     </div>
                 </div>
-                <a href="{{ popular_novels_url }}" class="btn btn-secondary mb-5">View All Popular Novels</a>
-
-                <!-- Latest Novels Section -->
-                <div class="my-5">
-                    <h2 class="section-title">Latest Novels</h2>
-                    <div class="row row-cols-1 row-cols-md-5 g-4">
-                        {% for novel in latest_novels %}
-                        <div class="col">
-                            <div class="card shadow-sm h-100">
-                                {% if novel.cover_image %}
-                                <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
-                                {% endif %}
-                                <div class="card-body">
-                                    <a href="{% url 'novel_detail' novel.slug %}">
-                                        <h5 class="card-title">{{ novel.title }}</h5> 
-                                    </a>
-                                    <p class="card-text">{{ novel.author }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                <a href="{{ latest_novels_url }}" class="btn btn-secondary mb-5">View All Latest Novels</a>
-
-                <!-- Featured Novels Section -->
-                <div class="my-5">
-                    <h2 class="section-title">Featured Novels</h2>
-                    <div class="row row-cols-1 row-cols-md-5 g-4">
-                        {% for novel in featured_novels %}
-                        <div class="col">
-                            <div class="card shadow-sm h-100">
-                                {% if novel.cover_image %}
-                                <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
-                                {% endif %}
-                                <div class="card-body">
-                                    <a href="{% url 'novel_detail' novel.slug %}">
-                                        <h5 class="card-title">{{ novel.title }}</h5> 
-                                    </a>
-                                    <p class="card-text">{{ novel.author }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                <a href="{{ featured_novels_url }}" class="btn btn-secondary mb-5">View All Featured Novels</a>
-
-                <!-- New Novels Section -->
-                <div class="my-5">
-                    <h2 class="section-title">New Novels</h2>
-                    <div class="row row-cols-1 row-cols-md-5 g-4">
-                        {% for novel in new_novels %}
-                        <div class="col">
-                            <div class="card shadow-sm h-100">
-                                {% if novel.cover_image %}
-                                <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
-                                {% endif %}
-                                <div class="card-body">
-                                    <a href="{% url 'novel_detail' novel.slug %}">
-                                        <h5 class="card-title">{{ novel.title }}</h5> 
-                                    </a>
-                                    <p class="card-text">{{ novel.author }}</p>
-                                    <a href="{% url 'novel_detail' novel.slug %}" class="btn btn-primary">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                <a href="{{ new_novels_url }}" class="btn btn-secondary mb-5">View All Featured Novels</a>
-        
+                {% endfor %}
+            </div>
+            <a href="{{ popular_novels_url }}" class="btn btn-secondary mb-5">View Popular Novels</a>
         </div>
+        
+
+
+    <!-- Latest Novels Section -->
+    <div class="my-5">
+        <h2 class="section-title">Completed Novels</h2>
+        <div class="row row-cols-1 row-cols-md-5 g-4">
+            {% for novel in completed_novels %}
+            <div class="col">
+                <div class="card shadow-sm h-100">
+                    {% if novel.cover_image %}
+                    <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <a href="{% url 'novel_detail' novel.slug %}">
+                            <h5 class="card-title">{{ novel.title }}</h5>
+                        </a>
+                        <p class="card-text">{{ novel.author }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <a href="{{ completed_novels_url }}" class="btn btn-secondary mb-5">View All Completed Novels </a>
+    </div>
+
+    <!-- Featured Novels Section -->
+    <div class="my-5">
+        <h2 class="section-title">Featured Novels</h2>
+        <div class="row row-cols-1 row-cols-md-5 g-4">
+            {% for novel in featured_novels %}
+            <div class="col">
+                <div class="card shadow-sm h-100">
+                    {% if novel.cover_image %}
+                    <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <a href="{% url 'novel_detail' novel.slug %}">
+                            <h5 class="card-title">{{ novel.title }}</h5>
+                        </a>
+                        <p class="card-text">{{ novel.author }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <a href="{{ featured_novels_url }}" class="btn btn-secondary mb-5">View All Featured Novels</a>
+    </div>
+
+    <!-- New Novels Section -->
+    <div class="my-5">
+        <h2 class="section-title">New Novels</h2>
+        <div class="row row-cols-1 row-cols-md-5 g-4">
+            {% for novel in new_novels %}
+            <div class="col">
+                <div class="card shadow-sm h-100">
+                    {% if novel.cover_image %}
+                    <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <a href="{% url 'novel_detail' novel.slug %}">
+                            <h5 class="card-title">{{ novel.title }}</h5>
+                        </a>
+                        <p class="card-text">{{ novel.author }}</p>
+                        <a href="{% url 'novel_detail' novel.slug %}" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <a href="{{ new_novels_url }}" class="btn btn-secondary mb-5">View All New Novels</a>
+    </div>
+</div>
+
 
 
 <style>
@@ -149,7 +150,8 @@ h1, h2 {
     font-weight: bold;
     color: #333;
 }
-a{
+
+a {
     text-decoration: none;
 }
 
@@ -181,6 +183,7 @@ a{
 
 .btn-secondary {
     background-color: #6c757d;
+    margin-top: 20px;
     border: none;
 }
 
@@ -208,7 +211,6 @@ a{
         font-size: 12px;
     }
 }
-
 
 /* Custom Alert Styles */
 .alert {

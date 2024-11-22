@@ -11,26 +11,25 @@ from django.db.models import Q
 class HomeView(ListView):
     model = Novel
     template_name = 'home.html'
+    context_object_name = 'novels'
 
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['popular_novels'] = Novel.objects.filter(category='popular')[:10]
-        context['latest_novels'] = Novel.objects.filter(category='latest')[:10]
+        context['completed_novels'] = Novel.objects.filter(category='completed')[:10]
         context['new_novels'] = Novel.objects.filter(category='new')[:10]
         context['featured_novels'] = Novel.objects.filter(category='featured')[:10]
-        context['all_novels'] = Novel.objects.all()  # If you want to show all novels
 
-
-         # Adding the category URLs
+        # Add the category URLs
+        
         context['popular_novels_url'] = reverse('popular_novels')
-        context['latest_novels_url'] = reverse('latest_novels')
+        context['completed_novels_url'] = reverse('completed_novels')
         context['new_novels_url'] = reverse('new_novels')
         context['featured_novels_url'] = reverse('featured_novels')
 
 
         return context
-    
 
 
 
@@ -56,10 +55,36 @@ class CategoryNovelListView(ListView):
 class LightNovelView(ListView):
     model = Novel
     template_name = 'light_novel.html'
+    context_object_name = 'novels'
+
+
+
+    def get_queryset(self):
+    # Retrieve the query parameter
+        query = self.request.GET.get('q', '').strip()  # Use .strip() to remove extra spaces
+        if query:
+        # Filter novels based on the query
+            return Novel.objects.filter(
+            Q(title__icontains=query)
+        )
+        return Novel.objects.all()  # Default queryset
+
 
     def get_context_data(self, *args, **kwargs):
         context  =super(LightNovelView,self).get_context_data( *args, **kwargs)
+
+        context['query'] = self.request.GET.get('q', '')
+
+
         return context
+
+        
+
+    
+
+
+
+
 
 
 

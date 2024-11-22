@@ -26,8 +26,9 @@ class Novel(models.Model):
     CATEGORY_CHOICES = [
         ('popular', 'Popular'),
         ('latest', 'Latest'),
-        ('new', 'New'),
-        ('featured', 'Featured')
+        ('completed', 'Completed'),
+        ('featured', 'Featured'),
+        
     ]
     title = models.CharField(max_length=100)
     genre = models.ManyToManyField(Genre, related_name='light_novels')
@@ -39,8 +40,6 @@ class Novel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='popular')
-    is_popular = models.BooleanField(default=False)
-    is_featured = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -80,12 +79,11 @@ class Contacts(models.Model):
 
     
 class Review(models.Model):
-    title = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # Making the user field non-nullable
     novel = models.ForeignKey(Novel, on_delete=models.CASCADE, related_name='reviews')  # Removed default
-    content = RichTextField()
-    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)], default=5)
+    comment = models.TextField(default='Add Comment')
+    rating = models.PositiveIntegerField(blank=True, null=True)
     post_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.title
+        return f"Review by {self.user.username} - {self.rating} stars"

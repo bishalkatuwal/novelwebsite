@@ -23,7 +23,6 @@
           <div class="nav">
               <li><a href="{% url 'home' %}">Home</a></li>
               <li><a href="#">About</a></li>
-              <li><a href="#">Reviews</a></li>
               <li><a href="{% url 'contact' %}">Contact</a></li>
               <li><a href="{% url 'novels' %}">Light Novels </a></li>
               <li><a href="#">Services</a></li>
@@ -37,39 +36,30 @@
                 <form method="post" action="{% url 'logout' %}" style="display: inline;">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">Logout</button>
-                </form>
+                
 
 
-                 <a href="{% url 'profile_detail'%}">
-                            {% if user.is_authenticated and user.profile.profile_pic %}
-                                    <img class="profile-image" width="50" height="50" style="border-radius: 50%;" src="{{ user.profile.profile_pic.url }}" alt="Profile Picture">
+                    <a href="{% url 'profile_detail'%}">
+                                {% if user.is_authenticated and user.profile.profile_pic %}
+                                        <img class="profile-image" width="50" height="50" style="border-radius: 50%;" src="{{ user.profile.profile_pic.url }}" alt="Profile Picture">
+                                    {% else %}
+                                        <img class="profile-image" width="50" height="50" style="border-radius: 50%;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsOjD4klpAWOSKQZeP9QoKBHtIxXsDsQOpLA&s" alt="Default Profile Picture">
+                                    {% endif %}
+                    </a>                      
                                 {% else %}
-                                    <img class="profile-image" width="50" height="50" style="border-radius: 50%;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsOjD4klpAWOSKQZeP9QoKBHtIxXsDsQOpLA&s" alt="Default Profile Picture">
-                                {% endif %}
-                 </a>                      
-                            {% else %}
+                    
+                                <a href="{% url 'login' %}" class="btn btn-success">
+                                    <i class="fas fa-user-friends"></i> Login
+                                </a>
+                                
                    
-                 <a href="{% url 'login' %}" class="btn btn-danger">Login</a>  
-                 <a href="{% url 'user_register' %}" class="btn btn-success">Sign Up</a>
-            {% endif %}
+                {% endif %}
              
-          </div>
+             </form>
+         </div>
   
   
   
-      </div>
-  
-  
-      <div class="hero">
-          <div class="info">
-              <h4>Explore the world of fiction & fantasy </h4>
-              <p>A good book is like a good friend: it keeps you company, comforts you, and takes you places you’ve never been."</p>
-          </div>
-  
-          <form method="get" action="{% url 'home' %}" class="d-flex justify-content-center mb-4">
-            <input type="text" name="q" placeholder="Search novels..." class="form-control" style="width: 300px;">
-            <button type="submit" class="btn btn-primary ms-2">Search</button>
-        </form>
       </div>
   
   
@@ -101,6 +91,56 @@
 <style>
   
  
+/* login button */
+
+/* General button styling */
+.btn-success {
+    background-color: #28a745; /* Default green */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center; /* Align icon and text vertically */
+    justify-content: center; /* Center content */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect */
+.btn-success:hover {
+    background-color: #218838; /* Slightly darker green */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+/* Icon styling */
+.btn-success i {
+    margin-right: 8px; /* Space between icon and text */
+    font-size: 1.2rem; /* Icon size */
+    color: #fff; /* Icon color */
+}
+
+/* Adjust icon size and alignment */
+.btn-success i:before {
+    vertical-align: middle;
+}
+
+/* Text styling inside the button */
+.btn-success span {
+    font-size: 1rem; /* Adjust font size if necessary */
+    vertical-align: middle;
+}
+
+
+
+
+
+
+
+
+
+
       /* General styles */
   body {
       margin: 0;

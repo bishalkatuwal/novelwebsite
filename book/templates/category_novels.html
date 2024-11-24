@@ -6,16 +6,22 @@
         <div class="row row-cols-1 row-cols-md-5 g-4">
             {% for novel in object_list %}
                 <div class="col mb-4">
-                    <div class="card h-100 shadow-sm">
-                        {% if novel.cover_image %}
-                            <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
-                        {% endif %}
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">{{ novel.title|truncatechars:20 }}</h5>
-                            <p class="card-text">{{ novel.author }}</p>
-                            <a href="{% url 'novel_detail' novel.slug %}" class="btn btn-primary mt-auto">Read More</a>
+                    <a href="{% url 'novel_detail' novel.slug %}">
+                        <div class="card h-100 shadow-sm">
+                            {% if novel.cover_image %}
+                                <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
+                            {% endif %}
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">{{ novel.title|truncatechars:20 }}</h5>
+                                <p class="card-text">{{ novel.author }}</p>
+                                <form action="{% url 'add_to_list' novel.id %}" method="POST" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">Add to Reading List</button>
+                                </form>
+                                
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             {% endfor %}
         </div>
@@ -89,11 +95,15 @@ a{
 
     /* Button Styles */
     .btn {
-        font-size: 14px;
-        font-weight: bold;
-        text-transform: uppercase;
-        border-radius: 25px;
-        padding: 10px 20px;
+            
+            margin-bottom: 20px;
+            color: #555;
+            font-weight: bold;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 25px;
+            padding: 10px 20px;
     }
 
     .btn-primary {
@@ -124,6 +134,48 @@ a{
             font-size: 12px;
         }
     }
+
+
+    
+
+    /* Button container (form) */
+    .btn-container {
+        display: inline-block;
+        margin: 10px 0;
+    }
+
+    /* Add to Reading List button style */
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        font-size: 12px;
+        font-weight: bold;
+        border: none;
+        border-radius: 40px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    /* Hover effect */
+    .btn-primary:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+    /* Focus effect for accessibility */
+    .btn-primary:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    /* Disabled button style */
+    .btn-primary:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+    }
+
+
 </style>
 
 {% endblock %}

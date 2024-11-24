@@ -22,12 +22,20 @@
   
           <div class="nav">
               <li><a href="{% url 'home' %}">Home</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="{% url 'contact' %}">Contact</a></li>
-              <li><a href="{% url 'novels' %}">Light Novels </a></li>
-              <li><a href="#">Services</a></li>
+
+              {% if user.is_authenticated %}
+                    <li><a href="{% url 'reading_list' %}" class="novel-link">My Novel List</a></li>
+              {% else %}
+                    <li><a href="#" id="novel-website" class="novel-link">My Novel List</a></li>
+              {% endif %}
+
+
+
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+            <li><a href="{% url 'novels' %}">Light Novels </a></li>
+            <li><a href="#">Services</a></li>
   
-          </div>
+        </div>
   
   
           <div class="auth">
@@ -84,13 +92,118 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
    
   </body>
+
+
+
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const novelLink = document.getElementById('novel-website');
+        const alertBox = document.createElement('div');
+        alertBox.classList.add('alert-box');
+        alertBox.innerHTML = `
+            <button class="alert-close">&times;</button>
+            <p>Please log in to add novels to your list.</p>
+        `;
+        document.body.appendChild(alertBox);
+
+        const alertOverlay = document.createElement('div');
+        alertOverlay.classList.add('alert-overlay');
+        document.body.appendChild(alertOverlay);
+
+        const closeAlert = alertBox.querySelector('.alert-close');
+        closeAlert.addEventListener('click', function () {
+            alertBox.classList.remove('active');
+            alertOverlay.classList.remove('active');
+        });
+
+        if (novelLink) {
+            novelLink.addEventListener('click', function (e) {
+                e.preventDefault();  // Prevent the default action (i.e., following the link)
+                alertBox.classList.add('active');
+                alertOverlay.classList.add('active');
+            });
+        }
+    });
+</script>
+
+
 </html>
 
 
 
 <style>
   
- 
+/* General Link Styling */
+
+
+.novel-link:hover {
+    background-color: #005bb5;
+    transform: translateY(-3px);
+}
+
+.novel-link:focus, .novel-link:active {
+    outline: none;
+}
+
+/* Alert Box Styling */
+.alert-box {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ff4444;
+    color: #fff;
+    padding: 20px 40px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 500;
+    z-index: 9999;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.alert-box.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Alert Box Close Button */
+.alert-close {
+    font-size: 1.5rem;
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.alert-close:hover {
+    color: #ccc;
+}
+
+/* Optional - Background overlay behind the alert */
+.alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 9998;
+}
+
+.alert-overlay.active {
+    display: block;
+}
+
+
 /* login button */
 
 /* General button styling */

@@ -45,6 +45,24 @@ class Novel(models.Model):
         return self.title
 
 
+class ReadingList(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    novel = models.ForeignKey(Novel, on_delete=models.CASCADE)
+    add_date = models.DateTimeField(auto_now_add=True)
+
+
+    class Meta:
+        unique_together = ('user', 'novel')  # Prevent duplicates
+
+    def __str__(self):
+        return f"{self.user.username}'s list - {self.novel.title}"
+
+
+
+
+
+
+
 class Volume(models.Model):
     novel = models.ForeignKey(Novel, related_name='volumes', on_delete=models.CASCADE)
     volume = models.PositiveIntegerField(default=0)

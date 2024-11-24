@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from django.core.wsgi import get_wsgi_application
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,9 +43,11 @@ INSTALLED_APPS = [
     'book',
     'member',
     'ckeditor'
+
 ]
 
 MIDDLEWARE = [
+    
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,7 +55,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'member.middleware.RestrictAdminMiddleware',
 ]
+
+
+
+
 
 ROOT_URLCONF = 'base.urls'
 
@@ -143,5 +151,15 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+
+
+
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+
+# session cookies
+SESSION_COOKIE_NAME = "user_session_id"
+
+
+

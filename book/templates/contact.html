@@ -28,34 +28,31 @@
         </form>
     </div>
 </div>
-
-<!-- Styles -->
 <style>
-    /* Scoped Contact Form Styles */
     .contact-wrapper {
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 50px 20px;
-        background: #fff;
+        padding: 40px 20px;
+        background: #f9f9f9;
         border-radius: 10px;
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        max-width: 800px;
-        margin: 50px auto;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        max-width: 700px;
+        margin: 40px auto;
     }
 
     .contact-wrapper .contact-header h2 {
-        font-size: 32px;
-        color: #4a90e2;
-        margin-bottom: 10px;
+        font-size: 28px;
+        color: #3b5998; /* Slightly muted blue */
         text-align: center;
+        margin-bottom: 8px;
     }
 
     .contact-wrapper .contact-header p {
-        font-size: 18px;
+        font-size: 16px;
         color: #6c757d;
         text-align: center;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
     }
 
     .contact-wrapper .contact-form {
@@ -68,61 +65,63 @@
 
     .contact-wrapper .form-group label {
         display: block;
-        font-weight: bold;
+        font-weight: 600;
         font-size: 14px;
         margin-bottom: 5px;
-        color: #4a90e2;
+        color: #333;
     }
 
     .contact-wrapper .form-group input,
     .contact-wrapper .form-group textarea {
         width: 100%;
-        padding: 12px 15px;
-        font-size: 16px;
-        border: 1px solid #ced4da;
+        padding: 12px;
+        font-size: 14px;
+        border: 1px solid #ddd;
         border-radius: 5px;
-        background-color: #f8f9fa;
-        transition: 0.3s;
+        background-color: #fff;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .contact-wrapper .form-group input:focus,
     .contact-wrapper .form-group textarea:focus {
-        border-color: #4a90e2;
-        background: #fff;
-        box-shadow: 0 4px 8px rgba(74, 144, 226, 0.2);
+        border-color: #3b5998;
+        box-shadow: 0 0 8px rgba(59, 89, 152, 0.2);
         outline: none;
+    }
+
+    .contact-wrapper .form-group textarea {
+        resize: vertical;
+        min-height: 120px;
     }
 
     .contact-wrapper .btn {
         display: inline-block;
-        padding: 15px 25px;
-        font-size: 16px;
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 14px;
         font-weight: bold;
-        text-transform: uppercase;
         color: #fff;
-        background: linear-gradient(to right, #4a90e2, #357ab8);
+        background: #3b5998;
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        transition: background 0.3s, transform 0.2s;
-        width: 100%;
+        transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
     .contact-wrapper .btn:hover {
-        background: linear-gradient(to right, #357ab8, #4a90e2);
+        background: #2e477a;
         transform: translateY(-2px);
     }
 
     .contact-wrapper .btn:active {
-        background: #2a5f91;
+        background: #25355a;
         transform: translateY(0);
     }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
+    /* Mobile Responsive Design */
+    @media (max-width: 600px) {
         .contact-wrapper {
-            padding: 30px;
+            padding: 30px 15px;
         }
 
         .contact-wrapper .contact-header h2 {
@@ -130,13 +129,15 @@
         }
 
         .contact-wrapper .contact-header p {
-            font-size: 16px;
+            font-size: 14px;
         }
 
         .contact-wrapper .btn {
-            font-size: 14px;
+            font-size: 13px;
+            padding: 10px 15px;
         }
     }
 </style>
+
 
 {% endblock %}

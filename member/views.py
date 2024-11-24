@@ -1,24 +1,57 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
 from django.views import generic
+from django.contrib import messages
 from django.views.generic import CreateView, DetailView, UpdateView
-from .forms import SignUpForm
+from .forms import SignUpForm, CustomUSerForm
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
+from book.models import ReadingList, Novel
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView, LogoutView
+from django.views import View
 
 # Create your views here.
 
 
 
-class RegistrationFormView(generic.CreateView):
-    form_class = SignUpForm
+class RestrictAdminAccessMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        # Middleware logic
+        return self.get_response(request)
+
+
+
+class RedirectAuthenticatedMixin:
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('home')  # Redirect to home page if logged in
+        return super().dispatch(request, *args, **kwargs)
+
+
+class UserRegisterView(CreateView):
+    form_class = CustomUSerForm
     template_name = 'registration/register.html'
     success_url = reverse_lazy('login')
 
 
+class UserLoginView(LoginView):
+    template_name = 'registration/login.html'
+    redirect_authenticated_user = True
+
+
+
+class UserLogoutView(LogoutView):
+    next_page = 'home'
+
+
+
 
 class ProfileUserView(CreateView):
-     
+
     model = Profile
     fields = ['bio', 'profile_pic']
     template_name = 'profile/profile_create.html'
@@ -43,13 +76,15 @@ class ProfileDetailView(DetailView):
     template_name = 'profile/profile_detail.html'
     context_object_name = 'profile'
 
-
     def get_object(self, queryset=None):
 
         # Check if profile exists; if not, create it
         profile, created = Profile.objects.get_or_create(user=self.request.user)
         return profile
     
+   
+
+
 
 
 class ProfileEditView(UpdateView):
@@ -61,3 +96,6 @@ class ProfileEditView(UpdateView):
     def get_object(self, queryset=None):
         # Fetch the profile of the logged-in user
         return self.request.user.profile
+
+
+

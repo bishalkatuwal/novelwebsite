@@ -1,124 +1,145 @@
-<!-- profile_detail.html -->
-<div class="profile-container">
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<!-- profile detail -->
+
+<div id="profile-detail-container">
+    <!-- Profile Header -->
     <div class="profile-header">
-        {% if profile.profile_pic %}
-            <img class="profile-image" src="{{ profile.profile_pic.url }}" alt="Profile Picture">
-        {% else %}
-        <img class="profile-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsOjD4klpAWOSKQZeP9QoKBHtIxXsDsQOpLA&s" alt="Profile Picture">
-        {% endif %}
+        <div class="profile-image-wrapper">
+            {% if profile.profile_pic %}
+                <img class="profile-image" src="{{ profile.profile_pic.url }}" alt="Profile Picture">
+            {% else %}
+                <img class="profile-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsOjD4klpAWOSKQZeP9QoKBHtIxXsDsQOpLA&s" alt="Default Profile Picture">
+            {% endif %}
+        </div>
         <div class="profile-info">
             <h1 class="profile-name">{{ profile.user.first_name }} {{ profile.user.last_name }}</h1>
-            <p class="profile-bio">{{ profile.bio }}</p>
+            <p class="profile-bio">
+                {% if profile.bio %}
+                    {{ profile.bio }}
+                {% else %}
+                    <span class="no-bio">This user hasn't added a bio yet.</span>
+                {% endif %}
+            </p>
         </div>
     </div>
 
+    <!-- Profile Actions -->
     <div class="profile-actions">
-        <a href="{% url 'profile_edit' %}" class="edit-profile-btn">Edit Profile</a>
+        <a href="{% url 'profile_edit' %}" class="btn edit-profile-btn">Edit Profile</a>
     </div>
 </div>
 
+
+
 <style>
-    /* General Styling for Profile Page */
-    .profile-container {
+    /* Scoped Profile Page Styles */
+    #profile-detail-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        background-color:black;
+        text-align: center;
+        font-family: 'Arial', sans-serif;
+       
+    }
+
+    #profile-detail-container .profile-header {
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 20px;
-        max-width: 500px;
-        margin: 0 auto;
-        font-family: Arial, sans-serif;
-    }
-
-    .profile-header {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        gap: 20px;
+        gap: 15px;
+        border-bottom: 1px solid #f0f0f0;
         padding-bottom: 20px;
-        border-bottom: 1px solid #ddd;
     }
 
     /* Profile Image */
-    .profile-image {
-        width: 100px;
-        height: 100px;
+    #profile-detail-container .profile-image-wrapper {
+        position: relative;
+        width: 120px;
+        height: 120px;
         border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #ccc;
+        overflow: hidden;
+        border: 3px solid #4a90e2;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .no-image {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        background-color: #f0f0f0;
-        color: #777;
-        font-size: 14px;
-        text-align: center;
+    #profile-detail-container .profile-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     /* Profile Info */
-    .profile-info {
-        flex: 1;
-    }
-
-    .profile-name {
-        font-size: 24px;
+    #profile-detail-container .profile-name {
+        font-size: 28px;
         font-weight: bold;
+        color: white;
         margin: 0;
     }
 
-    .profile-bio {
-        color: #555;
-        font-size: 14px;
+    #profile-detail-container .profile-bio {
+        font-size: 16px;
+        color: #666;
         margin-top: 8px;
     }
 
-    /* Edit Profile Button */
-    .profile-actions {
-        width: 100%;
-        display: flex;
-        justify-content: center;
+    #profile-detail-container .no-bio {
+        color: #999;
+        font-style: italic;
+    }
+
+    /* Profile Actions */
+    #profile-detail-container .profile-actions {
         margin-top: 20px;
     }
 
-    .edit-profile-btn {
+    #profile-detail-container .edit-profile-btn {
         text-decoration: none;
-        color: #fff;
-        background-color: #0095f6;
-        padding: 8px 16px;
-        border-radius: 4px;
+        color: #ffffff;
+        background-color: #4a90e2;
+        padding: 10px 20px;
+        border-radius: 5px;
         font-weight: bold;
-        text-align: center;
+        font-size: 16px;
+        box-shadow: 0 4px 10px rgba(74, 144, 226, 0.2);
+        transition: all 0.3s ease;
     }
 
-    .edit-profile-btn:hover {
-        background-color: #007ac1;
+    #profile-detail-container .edit-profile-btn:hover {
+        background-color: #357ab8;
+        box-shadow: 0 6px 15px rgba(74, 144, 226, 0.4);
     }
 
-    /* Mobile Friendly Adjustments */
-    @media (max-width: 500px) {
-        .profile-header {
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
+    /* Responsive Design */
+    @media (max-width: 600px) {
+        #profile-detail-container {
+            margin: 20px auto;
+            padding: 15px;
         }
 
-        .profile-image,
-        .no-image {
-            width: 80px;
-            height: 80px;
+        #profile-detail-container .profile-name {
+            font-size: 24px;
         }
 
-        .profile-name {
-            font-size: 20px;
+        #profile-detail-container .profile-bio {
+            font-size: 14px;
         }
 
-        .profile-bio {
-            font-size: 12px;
+        #profile-detail-container .edit-profile-btn {
+            font-size: 14px;
+            padding: 8px 16px;
+        }
+
+        #profile-detail-container .profile-image-wrapper {
+            width: 100px;
+            height: 100px;
         }
     }
 </style>
+{% endblock %}

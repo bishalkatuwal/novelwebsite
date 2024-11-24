@@ -1,9 +1,14 @@
-from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.forms.models import BaseModelForm
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.views.generic import ListView, CreateView, DetailView
-from .models import Novel, Contacts, Review
+from .models import Novel, Contacts, Review, ReadingList
 from .forms import ContactForm, ReviewForm
 from django.urls import reverse_lazy, reverse
 from django.db.models import Q
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
 
 
 
@@ -122,6 +127,7 @@ class ContactView(CreateView):
 
 
 class AddReviewView(CreateView):
+    
     model = Review
     form_class = ReviewForm
 
@@ -133,3 +139,45 @@ class AddReviewView(CreateView):
 
     def get_success_url(self):
         return reverse('novel_detail', kwargs={'slug': self.object.novel.slug})
+    
+
+
+
+
+class AddToListView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        # Fetch the novel based on the novel_id from the URL
+        novel = get_object_or_404(Novel, id=self.kwargs['novel_id'])
+
+        # Check if the novel is already in the user's reading list
+        if ReadingList.objects.filter(user=self.request.user, novel=novel).exists():
+            messages.info(request, "This novel is already in your reading list.")
+        else:
+            # Add the novel to the user's reading list
+            ReadingList.objects.create(user=request.user, novel=novel)
+            messages.success(request, f"'{novel.title}' has been added to your reading list.")
+
+        # Redirect back to the novel detail page or the reading list
+        return redirect('reading_list')
+
+
+
+class ReadingListView(LoginRequiredMixin, ListView):
+    model = ReadingList
+    template_name = 'reading_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['reading_list'] = self.get_queryset()
+        return context
+
+class RemoveFromListView(View):
+    def post(self, request, item_id):
+        # Use get_object_or_404 instead of get_list_or_404
+        reading_item = get_object_or_404(ReadingList, id=item_id)
+        
+        # Delete the reading item from the list
+        reading_item.delete()
+
+        # Redirect to the reading list page after removing the item
+        return redirect('reading_list')

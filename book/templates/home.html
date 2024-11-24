@@ -19,6 +19,19 @@
                                 <h5 class="card-title">{{ novel.title }}</h5>
                             </a>
                             <p class="card-text">{{ novel.author }}</p>
+
+                        
+                        {% if user.is_authenticated %}    
+                            <form action="{% url 'add_to_list' novel.id %}" method="POST" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Add to Reading List</button>
+                            </form>
+                        {% endif %}
+
+
+
+
+
                         </div>
                     </div>
                 </div>
@@ -44,6 +57,13 @@
                             <h5 class="card-title">{{ novel.title }}</h5>
                         </a>
                         <p class="card-text">{{ novel.author }}</p>
+                        
+                        {% if user.is_authenticated %}    
+                            <form action="{% url 'add_to_list' novel.id %}" method="POST" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Add to Reading List</button>
+                            </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -67,6 +87,13 @@
                             <h5 class="card-title">{{ novel.title }}</h5>
                         </a>
                         <p class="card-text">{{ novel.author }}</p>
+                         
+                        {% if user.is_authenticated %}    
+                            <form action="{% url 'add_to_list' novel.id %}" method="POST" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Add to Reading List</button>
+                            </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -90,6 +117,12 @@
                             <h5 class="card-title">{{ novel.title }}</h5>
                         </a>
                         <p class="card-text">{{ novel.author }}</p>
+                        {% if user.is_authenticated %}    
+                            <form action="{% url 'add_to_list' novel.id %}" method="POST" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Add to Reading List</button>
+                            </form>
+                        {% endif %}
                         <a href="{% url 'novel_detail' novel.slug %}" class="btn btn-primary">Read More</a>
                     </div>
                 </div>
@@ -99,6 +132,32 @@
         <a href="{{ new_novels_url }}" class="btn btn-secondary mb-5">View All New Novels</a>
     </div>
 </div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <p>&copy; {{ current_year }} <strong>NovelWorld</strong>. All Rights Reserved.</p>
+            </div>
+            <div class="footer-section">
+                <ul class="footer-links">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'novels' %}">Browse Novels</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <p>Follow Us:</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
 
 
 
@@ -253,6 +312,112 @@ a {
     background-color: rgb(235, 167, 167); /* Slightly lighter green on hover */
     transition: background-color 0.3s ease-in-out;
 }
+
+
+/* footer */
+
+/* Footer Styles */
+.footer {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    padding: 20px 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+
+/* Footer Container */
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: auto;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Footer Sections */
+.footer-section {
+    flex: 1;
+    text-align: center;
+    min-width: 200px;
+}
+
+/* Footer Links */
+.footer-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.footer-links li {
+    display: inline;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #ecf0f1;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: #f39c12;
+}
+
+/* Social Media Links */
+.social-links a {
+    text-decoration: none;
+    color: #ecf0f1;
+    font-size: 18px;
+    margin: 0 5px;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: #f39c12;
+}
+
+
+    /* Button container (form) */
+    .btn-container {
+        display: inline-block;
+        margin: 10px 0;
+    }
+
+    /* Add to Reading List button style */
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        font-size: 12px;
+        font-weight: bold;
+        border: none;
+        border-radius: 40px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    /* Hover effect */
+    .btn-primary:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+    /* Focus effect for accessibility */
+    .btn-primary:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    /* Disabled button style */
+    .btn-primary:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+    }
+
+
 
 </style>
 

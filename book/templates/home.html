@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+
+
+
 <div class="container mt-4">
     
     <div class="my-5">
@@ -143,7 +147,12 @@
                 <ul class="footer-links">
                     <li><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="{% url 'novels' %}">Browse Novels</a></li>
-                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    {% for page in pages %}
+                        <li> <a href="{% url 'page_detail' slug=page.slug %}">
+                    {{ page.title }}
+                        </a></li><br>
+                    {% endfor %}
+
                 </ul>
             </div>
             <div class="footer-section">

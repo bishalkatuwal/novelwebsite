@@ -2,7 +2,7 @@ from django.forms.models import BaseModelForm
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.views.generic import ListView, CreateView, DetailView
-from .models import Novel, Contacts, Review, ReadingList
+from .models import Novel, Contacts, Review, ReadingList, Page
 from .forms import ContactForm, ReviewForm
 from django.urls import reverse_lazy, reverse
 from django.db.models import Q
@@ -19,6 +19,10 @@ class HomeView(ListView):
     context_object_name = 'novels'
 
 
+    def get_context_data(self, *args, **kwargs):
+        context = super(PageView,self).get_context_data(*args, **kwargs)
+        return context
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['popular_novels'] = Novel.objects.filter(category='popular')[:10]
@@ -33,7 +37,8 @@ class HomeView(ListView):
         context['new_novels_url'] = reverse('new_novels')
         context['featured_novels_url'] = reverse('featured_novels')
 
-
+        # added pages 
+        context['pages'] = Page.objects.all()       
         return context
 
 
@@ -181,3 +186,27 @@ class RemoveFromListView(View):
 
         # Redirect to the reading list page after removing the item
         return redirect('reading_list')
+
+
+class PageView(ListView):
+    model = Page
+    template_name = 'home.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(PageView,self).get_context_data(*args, **kwargs)
+        return context
+
+
+class PageDetailView(DetailView):
+    model = Page
+    template_name = 'page_detail.html'
+    context_object_name = 'page'
+
+    def get_object(self):
+        slug = self.kwargs['slug']
+        return get_object_or_404(Page, slug=slug)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['children'] = self.object.child_pages.all()  # Pass child pages to the template
+        return context

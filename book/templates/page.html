@@ -1,0 +1,6 @@
+
+{% for page in object_list %}
+    <a href="{% url 'page_detail' slug=page.slug %}">
+        {{ page.title }}
+    </a><br>
+{% endfor %}

@@ -3,6 +3,10 @@ from django.db import models
 from django.utils import timezone
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
+from froala_editor.fields import FroalaField
+from django.utils.text import slugify
+from django.urls import reverse
+
 
 
 class Genre(models.Model):
@@ -105,3 +109,53 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review by {self.user.username} - {self.rating} stars"
+    
+
+
+
+class Page(models.Model):
+    STATUS_CHOICES = [
+        ('private', 'Private'),
+        ('public', 'Public')
+    ]
+    title=models.CharField(max_length=100)
+    parent=models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='children')
+    slug=models.SlugField(max_length=200, blank=True, unique=True)
+    summary = FroalaField(blank=True, null=True)
+    description = FroalaField(blank=True, null=True)
+    meta_title = models.CharField(max_length=200, blank=True, null=True)
+    meta_keyword = models.CharField(max_length=200, blank=True, null=True)
+    image = models.ImageField(upload_to='pages/', blank=True, null=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='private')
+
+    def save(self, *args, **kwargs):
+        if not self.slug: 
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('page_detail', args=[self.slug])
+
+
+    def __str__(self):
+        return self.title
+
+    
+
+
+
+class ChildPage(models.Model):
+    parent = models.ForeignKey('Page', related_name='child_pages', on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    content = FroalaField(blank=True, null=True)
+    slug = models.SlugField(unique=True)
+    status = models.CharField(max_length=10, choices=[('draft', 'Draft'), ('published', 'Published')], default='draft')
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title

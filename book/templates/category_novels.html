@@ -14,11 +14,13 @@
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">{{ novel.title|truncatechars:20 }}</h5>
                                 <p class="card-text">{{ novel.author }}</p>
+
+                            {% if user.is_authenticated %}
                                 <form action="{% url 'add_to_list' novel.id %}" method="POST" style="display: inline;">
                                     {% csrf_token %}
                                     <button type="submit" class="btn btn-primary">Add to Reading List</button>
                                 </form>
-                                
+                            {% endif %}
                             </div>
                         </div>
                     </a>

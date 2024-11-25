@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'book',
     'member',
-    'ckeditor'
+    'ckeditor',
+    'froala_editor',
 
 ]
 

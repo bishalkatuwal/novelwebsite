@@ -36,15 +36,3 @@ class WriterNovelDetailView(DetailView):
     context_object_name = 'novel'
 
 
-
-
-class DashboardView(TemplateView):
-    template_name = 'dashboard.html'
-    login_url = '/login/'  # Redirect to login page if not authenticated
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user = self.request.user
-        context['user'] = user
-        context['novels'] = WriterNovel.objects.filter(writer=user)
-        return context

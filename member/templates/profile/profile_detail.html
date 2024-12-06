@@ -35,6 +35,33 @@
 
 
 
+
+<div class="container mt-4">
+    <div class="my-5">
+        <!-- Displaying the Novels from the Search -->
+            <h2 class="section-title">Your Novels</h2>
+            <div class="row row-cols-1 row-cols-md-5 g-4">
+                {% for novel in novels %}
+                <div class="col">
+                    <div class="card shadow-sm h-100">
+    
+                        <img src="{{ novel.cover_img.url }}" class="card-img-top" alt="{{ novel.title }}">
+
+                        <div class="card-body">
+                            <a href="{% url 'writer_novels_detail' novel.pk %}">
+                                <h5 class="card-title">{{ novel.title }}</h5>
+                                <h5 class="card-title">{{ novel.writer.first_name }} {{ novel.writer.last_name}}</h5>
+                            </a>
+                            
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+
+
 <style>
     /* Scoped Profile Page Styles */
     #profile-detail-container {
@@ -141,5 +168,120 @@
             height: 100px;
         }
     }
+
+    
+.container {
+    
+    max-width: 900px;
+    margin-top: 10px;
+    padding: 0 15px;
+    
+}
+
+
+h1, h2 {
+    font-family: 'Verdana', Geneva, Tahoma, sans-serif;
+    color: #333;
+}
+
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #555;
+    font-weight: bold;
+}
+
+/* Card Styles */
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    transition: transform 0.3s ease-in-out;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 80px;
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 13px;
+    font-weight: 1000;
+    font-family: 'Courier New', Courier, monospace;
+
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+}
+
+.card-text {
+    font-size: 10px;
+    color: #777;
+}
+
+.card img {
+    object-fit: cover;
+    height: 150px;
+    width: 100%;
+    border-radius: 8px;
+}
+
+/* Button Styles */
+.btn {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 25px;
+    padding: 10px 20px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    margin-top: 20px;
+    border: none;
+}
+
+/* Hover Effects */
+.btn:hover {
+    opacity: 0.8;
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Responsive Grid */
+@media (max-width: 768px) {
+    .col-md-5 {
+        width: 100%;
+    }
+
+    .card-body {
+        height: auto;
+    }
+
+    .card-title {
+        font-size: 16px;
+    }
+
+    .btn {
+        font-size: 12px;
+    }
+}
+
 </style>
 {% endblock %}

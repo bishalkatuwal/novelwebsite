@@ -4,138 +4,127 @@
 
 
 
-
-<div class="container mt-4">
+<div class="container-sm">
     
-    <div class="my-5">
+    <div class="content">
+        <h5>Want to Become a Writer & <br> Share Your Stories?</h5>
+        <p> Let your imagination soar and your <br>
+            words inspire.
+            Here, your stories find a home where <br>
+            readers cherish every page. </p>
+        
+        <span>Join our community of passionate writers.  <br>
+        ✨ Turn your ideas into reality. <br>
+        ✨ Share your journey with the world. <br>
+        ✨ Inspire others through your tales.</span> <br>
+        
+        Let’s create something extraordinary together.
+        Are you ready to start your journey? <br>
+        {% if user.is_authenticated %} 
+            <a href="{% url 'novel_add' %}" class="btn btn-success">Become a Writer</a>
+        {% else %}    
+           <a href="{% url 'login' %}" style="font-family: 'Courier New', Courier, monospace;">Login</a><p style="font-family: 'Courier New', Courier, monospace; font-weight: bold;"> ! First to add Your Novels </p> 
+        {% endif %}
 
-        <!-- Displaying the Novels from the Search -->
-            <h2 class="section-title">Popular Novels</h2>
-            <div class="row row-cols-1 row-cols-md-5 g-4">
-                {% for novel in popular_novels %}
-                <div class="col">
-                    <div class="card shadow-sm h-100">
-                        {% if novel.cover_image %}
-                        <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
-                        {% endif %}
-                        <div class="card-body">
-                            <a href="{% url 'novel_detail' novel.slug %}">
-                                <h5 class="card-title">{{ novel.title }}</h5>
-                            </a>
-                            <p class="card-text">{{ novel.author }}</p>
-
-                        
-                        {% if user.is_authenticated %}    
-                            <form action="{% url 'add_to_list' novel.id %}" method="POST" style="display: inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-primary">Add to Reading List</button>
-                            </form>
-                        {% endif %}
+        </div>
 
 
+        <div class="container mt-4">
+            <div class="my-5">
+                <!-- Displaying the Novels from the Search -->
+                    <h2 class="section-title">Popular Novels</h2>
+                    <div class="row row-cols-1 row-cols-md-5 g-4">
+                        {% for novel in popular_novels %}
+                        <div class="col">
+                            <div class="card shadow-sm h-100">
+                                {% if novel.cover_image %}
+                                <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
+                                {% endif %}
+                                <div class="card-body">
+                                    <a href="{% url 'novel_detail' novel.slug %}">
+                                        <h5 class="card-title">{{ novel.title }}</h5>
+                                    </a>
+                                    
+
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <a href="{{ popular_novels_url }}" class="btn btn-secondary mb-5">View Popular Novels</a>
+                </div>
+                
 
 
-
+            <!-- Latest Novels Section -->
+            <div class="my-5">
+                <h2 class="section-title">Completed Novels</h2>
+                <div class="row row-cols-1 row-cols-md-5 g-4">
+                    {% for novel in completed_novels %}
+                    <div class="col">
+                        <div class="card shadow-sm h-100">
+                            {% if novel.cover_image %}
+                            <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <a href="{% url 'novel_detail' novel.slug %}">
+                                    <h5 class="card-title">{{ novel.title }}</h5>
+                                </a>
+                            </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
+                <a href="{{ completed_novels_url }}" class="btn btn-secondary mb-5">View All Completed Novels </a>
             </div>
-            <a href="{{ popular_novels_url }}" class="btn btn-secondary mb-5">View Popular Novels</a>
-        </div>
-        
 
-
-    <!-- Latest Novels Section -->
-    <div class="my-5">
-        <h2 class="section-title">Completed Novels</h2>
-        <div class="row row-cols-1 row-cols-md-5 g-4">
-            {% for novel in completed_novels %}
-            <div class="col">
-                <div class="card shadow-sm h-100">
-                    {% if novel.cover_image %}
-                    <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
-                    {% endif %}
-                    <div class="card-body">
-                        <a href="{% url 'novel_detail' novel.slug %}">
-                            <h5 class="card-title">{{ novel.title }}</h5>
-                        </a>
-                        <p class="card-text">{{ novel.author }}</p>
-                        
-                        {% if user.is_authenticated %}    
-                            <form action="{% url 'add_to_list' novel.id %}" method="POST" style="display: inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-primary">Add to Reading List</button>
-                            </form>
-                        {% endif %}
+            <!-- Featured Novels Section -->
+            <div class="my-5">
+                <h2 class="section-title">Featured Novels</h2>
+                <div class="row row-cols-1 row-cols-md-5 g-4">
+                    {% for novel in featured_novels %}
+                    <div class="col">
+                        <div class="card shadow-sm h-100">
+                            {% if novel.cover_image %}
+                            <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <a href="{% url 'novel_detail' novel.slug %}">
+                                    <h5 class="card-title">{{ novel.title }}</h5>
+                                </a>
+                            </div>
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
+                <a href="{{ featured_novels_url }}" class="btn btn-secondary mb-5">View All Featured Novels</a>
             </div>
-            {% endfor %}
-        </div>
-        <a href="{{ completed_novels_url }}" class="btn btn-secondary mb-5">View All Completed Novels </a>
-    </div>
 
-    <!-- Featured Novels Section -->
-    <div class="my-5">
-        <h2 class="section-title">Featured Novels</h2>
-        <div class="row row-cols-1 row-cols-md-5 g-4">
-            {% for novel in featured_novels %}
-            <div class="col">
-                <div class="card shadow-sm h-100">
-                    {% if novel.cover_image %}
-                    <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
-                    {% endif %}
-                    <div class="card-body">
-                        <a href="{% url 'novel_detail' novel.slug %}">
-                            <h5 class="card-title">{{ novel.title }}</h5>
-                        </a>
-                        <p class="card-text">{{ novel.author }}</p>
-                         
-                        {% if user.is_authenticated %}    
-                            <form action="{% url 'add_to_list' novel.id %}" method="POST" style="display: inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-primary">Add to Reading List</button>
-                            </form>
-                        {% endif %}
+            <!-- New Novels Section -->
+            <div class="my-5">
+                <h2 class="section-title">New Novels</h2>
+                <div class="row row-cols-1 row-cols-md-5 g-4">
+                    {% for novel in new_novels %}
+                    <div class="col">
+                        <div class="card shadow-sm h-100">
+                            {% if novel.cover_image %}
+                            <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <a href="{% url 'novel_detail' novel.slug %}">
+                                    <h5 class="card-title">{{ novel.title }}</h5>
+                                </a>
+                            </div>
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
+                <a href="{{ new_novels_url }}" class="btn btn-secondary mb-5">View All New Novels</a>
             </div>
-            {% endfor %}
         </div>
-        <a href="{{ featured_novels_url }}" class="btn btn-secondary mb-5">View All Featured Novels</a>
-    </div>
-
-    <!-- New Novels Section -->
-    <div class="my-5">
-        <h2 class="section-title">New Novels</h2>
-        <div class="row row-cols-1 row-cols-md-5 g-4">
-            {% for novel in new_novels %}
-            <div class="col">
-                <div class="card shadow-sm h-100">
-                    {% if novel.cover_image %}
-                    <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
-                    {% endif %}
-                    <div class="card-body">
-                        <a href="{% url 'novel_detail' novel.slug %}">
-                            <h5 class="card-title">{{ novel.title }}</h5>
-                        </a>
-                        <p class="card-text">{{ novel.author }}</p>
-                        {% if user.is_authenticated %}    
-                            <form action="{% url 'add_to_list' novel.id %}" method="POST" style="display: inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-primary">Add to Reading List</button>
-                            </form>
-                        {% endif %}
-                        <a href="{% url 'novel_detail' novel.slug %}" class="btn btn-primary">Read More</a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <a href="{{ new_novels_url }}" class="btn btn-secondary mb-5">View All New Novels</a>
-    </div>
 </div>
+
+
 
 <footer class="footer">
     <div class="container">
@@ -165,17 +154,100 @@
             </div>
         </div>
     </div>
+
 </footer>
 
 
 
 
 <style>
-/* Container Styles */
+
+.container-sm{
+
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-top: 60px;
+}
+/* General Styling for the Side Area */
+.content {
+    background-color: #f9f9f9; /* Light background for better readability */
+    border: 1px solid #ddd; /* Subtle border for a clean look */
+    border-radius: 10px; /* Smooth corners */
+    padding: 15px; /* Spacing inside the content */
+    width: 280px; /* Adjust width for compactness */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    font-family: 'Arial', sans-serif; /* Clean and readable font */
+    font-size: 0.9rem; /* Slightly smaller font size */
+    line-height: 1.5; /* Comfortable spacing between lines */
+    color: #333; /* Text color */
+}
+
+/* Heading Styling */
+.content h5 {
+    font-size: 1.2rem; /* Slightly larger font for the heading */
+    font-weight: 600; /* Make it bold */
+    margin-bottom: 10px; /* Add space below heading */
+    color: #2c3e50; /* A darker shade for emphasis */
+    text-align: center; /* Center-align for better focus */
+}
+
+/* Paragraph Styling */
+.content p {
+    margin-bottom: 10px; /* Space below the paragraph */
+    text-align: justify; /* Align text for a cleaner look */
+}
+
+/* Span Text Styling */
+.content span {
+    display: block;
+    font-weight: 500; /* Slightly bold for highlights */
+    color: #555; /* Medium shade for less contrast */
+    margin-bottom: 10px; /* Space below the span */
+}
+
+/* Button Styling */
+.content .btn {
+    display: block;
+    text-align: center;
+    background-color: #28a745; /* Green for success */
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.content .btn:hover {
+    background-color: #218838; /* Darker shade on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .content {
+        width: 100%; /* Full width on smaller screens */
+        padding: 10px; /* Reduce padding */
+    }
+
+    .content h5 {
+        font-size: 1rem; /* Smaller heading font */
+    }
+
+    .content .btn {
+        font-size: 0.85rem; /* Adjust button size */
+    }
+}
+
+
 .container {
-    max-width: 1200px;
-    margin-top: 50px;
+    
+    max-width: 900px;
+    margin-top: 10px;
     padding: 0 15px;
+    
 }
 
 h1, h2 {
@@ -209,13 +281,15 @@ h1, h2 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
+    height: 80px;
     padding: 15px;
 }
 
 .card-title {
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 13px;
+    font-weight: 1000;
+    font-family: 'Courier New', Courier, monospace;
+
     color: #333;
 }
 
@@ -224,13 +298,13 @@ a {
 }
 
 .card-text {
-    font-size: 14px;
+    font-size: 10px;
     color: #777;
 }
 
 .card img {
     object-fit: cover;
-    height: 200px;
+    height: 150px;
     width: 100%;
     border-radius: 8px;
 }

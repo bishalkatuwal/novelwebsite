@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'member',
     'ckeditor',
     'froala_editor',
+    'writer'
 
 ]
 

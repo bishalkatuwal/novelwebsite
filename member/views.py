@@ -6,6 +6,7 @@ from .forms import SignUpForm, CustomUSerForm
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
+from writer.models import WriterNovel
 from book.models import ReadingList, Novel
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
@@ -82,6 +83,13 @@ class ProfileDetailView(DetailView):
         profile, created = Profile.objects.get_or_create(user=self.request.user)
         return profile
     
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['user'] = user
+        context['novels'] = WriterNovel.objects.filter(writer=user)
+        return context
    
 
 
@@ -96,6 +104,8 @@ class ProfileEditView(UpdateView):
     def get_object(self, queryset=None):
         # Fetch the profile of the logged-in user
         return self.request.user.profile
+
+
 
 
 

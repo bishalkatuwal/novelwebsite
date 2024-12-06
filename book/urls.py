@@ -8,6 +8,11 @@ urlpatterns = [
      # Contact page
     path('contact/', ContactView.as_view(), name='contact'),
 
+    # Reading list management
+    path('reading-list/', ReadingListView.as_view(), name='reading_list'),
+    path('add-to-list/<int:novel_id>/', AddToListView.as_view(), name='add_to_list'),
+    path('remove-from-list/<int:item_id>/', RemoveFromListView.as_view(), name='remove_from_list'),
+
 
     
     # General pages
@@ -27,10 +32,8 @@ urlpatterns = [
     path('<slug:slug>/', NovelDetailView.as_view(), name='novel_detail'),
     path('<slug:slug>/add-review/', AddReviewView.as_view(), name='add_review'),
 
-    # Reading list management
-    path('reading-list/', ReadingListView.as_view(), name='reading_list'),
-    path('add-to-list/<int:novel_id>/', AddToListView.as_view(), name='add_to_list'),
-    path('remove-from-list/<int:item_id>/', RemoveFromListView.as_view(), name='remove_from_list'),
 
-   
+
+
+
 ]

@@ -40,7 +40,7 @@
                 {% if review.user.profile.profile_pic %}
                     <img src="{{ review.user.profile.profile_pic.url }}" class="profile-pic" alt="Profile Picture">
                 {% else %}
-                    <img src="https://via.placeholder.com/40" class="profile-pic" alt="Default Profile Picture">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj5RcqVbiDVmtc3ikO8-yxTeuVshxOKa_zgA&s" class="profile-pic" alt="Default Profile Picture">
                 {% endif %}
                 <div class="comment-user-details">
                     <strong>{{ review.user.username }}</strong>
@@ -64,7 +64,7 @@
 
         <div class="container-sm">
                 <h2>Leave a Review</h2>
-                <form method="post" action="{% url 'add-review' slug=novel.slug %}" class="review-form">
+                <form method="post" action="{% url 'add_review' slug=novel.slug %}" class="review-form">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <button type="submit">Submit Review</button>

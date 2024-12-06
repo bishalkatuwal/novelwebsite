@@ -1,183 +1,136 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container mt-4">
-        <h2 class="section-title">{{ category_name }} Novels</h2>
-        <div class="row row-cols-1 row-cols-md-5 g-4">
-            {% for novel in object_list %}
-                <div class="col mb-4">
-                    <a href="{% url 'novel_detail' novel.slug %}">
-                        <div class="card h-100 shadow-sm">
-                            {% if novel.cover_image %}
-                                <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
-                            {% endif %}
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">{{ novel.title|truncatechars:20 }}</h5>
-                                <p class="card-text">{{ novel.author }}</p>
-
-                            {% if user.is_authenticated %}
+<div class="container mt-4">
+    <h2 class="section-title">{{ category_name }} Novels</h2>
+    <div class="row row-cols-1 row-cols-md-5 g-4">
+        {% for novel in object_list %}
+        <div class="col mb-4">
+            <div class="card h-100 shadow-sm">
+                <a href="{% url 'novel_detail' novel.slug %}">
+                    {% if novel.cover_image %}
+                    <img src="{{ novel.cover_image.url }}" class="card-img-top" alt="{{ novel.title }}">
+                    {% endif %}
+                </a>
+                <div class="card-body d-flex flex-column">
+                    <a href="{% url 'novel_detail' novel.slug %}" class="text-decoration-none">
+                        <h5 class="card-title">{{ novel.title }}</h5>
+                    </a>
+                    <div class="mt-auto">
+                        {% if user.is_authenticated %}
                                 <form action="{% url 'add_to_list' novel.id %}" method="POST" style="display: inline;">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-primary">Add to Reading List</button>
+                                    <button class="btn-add-to-list" type="submit" style="border-radius: 30px;">
+                                        <i class="fas fa-bookmark"></i> Add to List
+                                    </button>
                                 </form>
                             {% endif %}
-                            </div>
-                        </div>
-                    </a>
+                    </div>
                 </div>
-            {% endfor %}
+            </div>
         </div>
+        {% endfor %}
     </div>
+</div>
 
 <style>
-
-
-    /* Container Styles */
-    .container {
-        max-width: 1200px;
-        margin-top: 50px;
-        padding: 0 15px;
-    }
-
-    h1, h2 {
-    font-family: 'Verdana', Geneva, Tahoma, sans-serif;
-    color: #333;
+/* General Container Styling */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .section-title {
+    font-family: 'Verdana', Geneva, Tahoma, sans-serif;
     font-size: 2rem;
-    margin-bottom: 20px;
-    color: #555;
+    color: #333;
     font-weight: bold;
+    margin-bottom: 20px;
 }
 
 /* Card Styles */
 .card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-radius: 8px;
     overflow: hidden;
 }
 
 .card:hover {
     transform: translateY(-10px);
-}
-
-.card-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    padding: 15px;
-}
-
-.card-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-}
-a{
-    text-decoration: none;
-}
-
-.card-text {
-    font-size: 14px;
-    color: #777;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
 .card img {
     object-fit: cover;
     height: 200px;
     width: 100%;
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
 }
 
-    /* Button Styles */
-    .btn {
-            
-            margin-bottom: 20px;
-            color: #555;
-            font-weight: bold;
-            font-size: 14px;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-radius: 25px;
-            padding: 10px 20px;
+.card-title {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Add to Reading List Button */
+.btn-add-to-list {
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+    text-transform: uppercase;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-add-to-list i {
+    font-size: 16px;
+}
+
+/* Hover Effects for Button */
+.btn-add-to-list:hover {
+    background-color: #2b7dd4;
+    transform: scale(1.05);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.5rem;
     }
 
-    .btn-primary {
-        background-color: #007bff;
-        border: none;
+    .card img {
+        height: 150px;
     }
 
-    .btn-primary:hover {
-        opacity: 0.8;
-        transition: opacity 0.2s ease-in-out;
-    }
-
-    /* Responsive Grid */
-    @media (max-width: 768px) {
-        .col-md-5 {
-            width: 100%;
-        }
-
-        .card-body {
-            height: auto;
-        }
-
-        .card-title {
-            font-size: 16px;
-        }
-
-        .btn {
-            font-size: 12px;
-        }
-    }
-
-
-    
-
-    /* Button container (form) */
-    .btn-container {
-        display: inline-block;
-        margin: 10px 0;
-    }
-
-    /* Add to Reading List button style */
-    .btn-primary {
-        background-color: #007bff;
-        color: white;
-        padding: 10px 20px;
+    .btn-add-to-list {
         font-size: 12px;
-        font-weight: bold;
-        border: none;
-        border-radius: 40px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
+        padding: 8px 10px;
     }
 
-    /* Hover effect */
-    .btn-primary:hover {
-        background-color: #0056b3;
-        transform: scale(1.05);
+    .btn-add-to-list i {
+        font-size: 14px;
     }
-
-    /* Focus effect for accessibility */
-    .btn-primary:focus {
-        outline: none;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    }
-
-    /* Disabled button style */
-    .btn-primary:disabled {
-        background-color: #cccccc;
-        cursor: not-allowed;
-    }
-
-
+}
 </style>
+
+<!-- Add Font Awesome -->
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMW6cqzjA5RrjNJD7UC0Bjhh+0IFvA0VFIbXqx/"
+    crossorigin="anonymous"/>
 
 {% endblock %}

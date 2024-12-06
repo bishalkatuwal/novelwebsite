@@ -1,52 +1,81 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% if reading_list %}
-        {% for item in reading_list %}
-            <div class="reading-item">
-                <a href="{% url 'novel_detail' item.novel.slug %}">
-                    <div class="novel-info">
-                        <img src="{{ item.novel.cover_image.url }}" alt="{{ item.novel.title }}" class="novel-cover">
-                        <div class="novel-details">
-                            <h3>{{ item.novel.title }}</h3>
-                            <p>{{ item.novel.description|truncatewords:20 }}</p>
-                        </div>
+    <div class="reading-list-container">
+        {% if reading_list %}
+            <h2>Your Reading List</h2>
+            <div class="reading-list">
+                {% for item in reading_list %}
+                    <div class="reading-item">
+                        <a href="{% url 'novel_detail' item.novel.slug %}">
+                            <div class="novel-info">
+                                <img src="{{ item.novel.cover_image.url }}" alt="{{ item.novel.title }}" class="novel-cover">
+                                <div class="novel-details">
+                                    <h3>{{ item.novel.title }}</h3>
+                                    <p style="font-weight: bold;">{{ item.novel.author }}</p>
+                                    <p>{{ item.novel.summary|truncatewords:20 }}</p>
+                                </div>
+                            </div>
+                        </a>
+
+                        <!-- Form to remove from list -->
+                        <form action="{% url 'remove_from_list' item.id %}" method="POST" class="remove-form">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger remove-btn">Remove</button>
+                        </form>
                     </div>
-                </a>
-
-                <!-- Form to remove from list -->
-                <form action="{% url 'remove_from_list' item.id %}" method="POST" class="remove-form">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger remove-btn">Remove from List</button>
-                </form>
+                {% endfor %}
             </div>
-        {% endfor %}
-    {% else %}
-        <div class="container no-books">
-            <b>No novels available in Reading List</b>
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeML3Cy09s-HLAtypYa9uHszaW5VgwqWqF9Q&s" alt="No books image">
-        </div>
-    {% endif %}
+        {% else %}
+            <div class="no-books-container">
+                <b>No novels available in your Reading List</b>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeML3Cy09s-HLAtypYa9uHszaW5VgwqWqF9Q&s" alt="No books image">
+                <p>Explore our collection and start adding novels to your reading list!</p>
+                <a href="{% url 'novels' %}" class="btn btn-primary explore-btn">Browse Novels</a>
+            </div>
+        {% endif %}
+    </div>
 
 
-<!-- Styles -->
-<style>
-/* General Container for the reading list */
-.reading-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #fff;
+
+    <style>
+
+
+.reading-list-container {
     padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
+h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.reading-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.reading-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+
+}
+
+
+
 .reading-item:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .novel-info {
@@ -55,32 +84,26 @@
 }
 
 .novel-cover {
-    width: 90px;
-    height: 130px;
+    width: 80px;
+    height: 120px;
     object-fit: cover;
     border-radius: 8px;
-    margin-right: 20px;
+    margin-right: 15px;
 }
 
 .novel-details h3 {
-    font-size: 1.3rem;
-    font-weight: 600;
+    font-size: 1.2rem;
     color: #333;
     margin: 0;
-    padding-bottom: 5px;
     text-decoration: none;
-    list-style: none;
+
 }
 
 .novel-details p {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #666;
     margin-top: 5px;
-}
-
-/* Button styling for remove button */
-.remove-form {
-    display: inline;
+    
 }
 
 .remove-btn {
@@ -88,54 +111,61 @@
     color: white;
     border: none;
     border-radius: 5px;
-    padding: 10px 25px;
+    padding: 8px 15px;
     cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .remove-btn:hover {
     background-color: #e03e3e;
     transform: scale(1.05);
 }
-
-/* Container when no novels are available */
-.container.no-books {
+.no-books-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     text-align: center;
-    background-color: #f7f7f7;
-    padding: 40px;
-    margin-top: 60px;
+    padding: 40px 20px;
+    background-color: #f9f9f9;
     border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.container.no-books b {
-    font-size: 1.6rem;
-    font-weight: bold;
+.no-books-container img {
+    width: 200px;
+    height: 200px;
+    margin: 20px 0;
+    border-radius: 50%;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.no-books-container img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.no-books-container p {
+    font-size: 1rem;
     color: #555;
     margin-bottom: 20px;
 }
 
-.container.no-books img {
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 50%;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.explore-btn {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
-.container.no-books img:hover {
-    transform: scale(1.08);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+.explore-btn:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
 }
 
-</style>
+
+    </style>
 {% endblock %}
